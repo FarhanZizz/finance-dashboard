@@ -1,14 +1,18 @@
 import React from "react";
 import { AppProvider, useApp } from "./context/AppContext";
+import Layout from "./components/Layout/Layout";
 import "./index.css";
 
 function AppContent() {
   const { state } = useApp();
   return (
     <div className={`app ${state.theme}`}>
-      <p style={{ padding: 32, color: "var(--text-primary)" }}>
-        Context ready · theme: {state.theme} · role: {state.role} · transactions: {state.transactions.length}
-      </p>
+      <Layout>
+        <div className="page-header">
+          <div className="page-title">Dashboard</div>
+          <div className="page-subtitle">layout scaffold</div>
+        </div>
+      </Layout>
     </div>
   );
 }
