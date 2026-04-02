@@ -1,6 +1,7 @@
 import React from "react";
 import { AppProvider, useApp } from "./context/AppContext";
 import Layout from "./components/Layout/Layout";
+import Dashboard from "./components/Dashboard/Dashboard";
 import "./index.css";
 
 function AppContent() {
@@ -8,10 +9,7 @@ function AppContent() {
   return (
     <div className={`app ${state.theme}`}>
       <Layout>
-        <div className="page-header">
-          <div className="page-title">Dashboard</div>
-          <div className="page-subtitle">layout scaffold</div>
-        </div>
+        <Dashboard />
       </Layout>
     </div>
   );
