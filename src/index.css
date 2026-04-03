@@ -100,7 +100,7 @@ body { font-family: var(--font-display); background: var(--bg-base); color: var(
 .category-bar-wrap { width: 60px; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .category-bar-fill { height: 100%; border-radius: 2px; }
 
-/* ── RECENT TRANSACTIONS ── */
+/* ── RECENT TX (dashboard) ── */
 .transactions-preview { display: flex; flex-direction: column; gap: 8px; }
 .tx-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); transition: background 0.15s; }
 .tx-item:hover { background: var(--bg-hover); }
@@ -118,7 +118,53 @@ body { font-family: var(--font-display); background: var(--bg-base); color: var(
 .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 .btn-secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); }
 .btn-secondary:hover { background: var(--bg-hover); color: var(--text-primary); }
+.btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.btn-danger:hover { background: rgba(255,77,109,0.15); }
 .btn-sm { height: 32px; padding: 0 10px; font-size: 12px; }
+
+/* ── TRANSACTIONS PAGE ── */
+.tx-controls { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.search-box { flex: 1; min-width: 200px; display: flex; align-items: center; gap: 8px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 0 14px; height: 40px; }
+.search-box input { background: none; border: none; outline: none; color: var(--text-primary); font-family: var(--font-display); font-size: 13px; flex: 1; width: 100%; }
+.search-box input::placeholder { color: var(--text-muted); }
+.filter-select { height: 40px; padding: 0 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); font-family: var(--font-display); font-size: 13px; cursor: pointer; outline: none; }
+.filter-select option { background: var(--bg-card); }
+
+/* ── TX TABLE ── */
+.tx-table-wrap { overflow-x: auto; }
+.tx-table { width: 100%; border-collapse: collapse; }
+.tx-table th { text-align: left; padding: 10px 14px; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; font-family: var(--font-mono); border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none; }
+.tx-table th:hover { color: var(--text-secondary); }
+.tx-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.tx-table tr:last-child td { border-bottom: none; }
+.tx-table tr:hover td { background: var(--bg-hover); }
+.type-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.type-badge.income { background: var(--green-bg); color: var(--green); }
+.type-badge.expense { background: var(--red-bg); color: var(--red); }
+.cat-badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; background: var(--bg-elevated); color: var(--text-secondary); }
+.action-btns { display: flex; gap: 6px; }
+.sort-icon { margin-left: 4px; opacity: 0.5; }
+.sort-active .sort-icon { opacity: 1; color: var(--accent); }
+
+/* ── MODAL ── */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 28px; width: 100%; max-width: 480px; animation: modalIn 0.2s ease; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(-10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.modal-title { font-size: 18px; font-weight: 700; }
+.modal-close { width: 32px; height: 32px; border: 1px solid var(--border); background: none; color: var(--text-secondary); border-radius: 8px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.modal-close:hover { background: var(--bg-hover); color: var(--text-primary); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.form-input, .form-select { width: 100%; padding: 10px 12px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-primary); font-family: var(--font-display); font-size: 13px; outline: none; transition: border-color 0.15s; }
+.form-input:focus, .form-select:focus { border-color: var(--accent); }
+.form-select option { background: var(--bg-card); }
+.type-selector { display: flex; gap: 8px; }
+.type-opt { flex: 1; padding: 10px; border: 1px solid var(--border); background: none; border-radius: var(--radius); color: var(--text-secondary); font-family: var(--font-display); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; text-align: center; }
+.type-opt.active-income { border-color: var(--green); color: var(--green); background: var(--green-bg); }
+.type-opt.active-expense { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+.modal-actions { display: flex; gap: 10px; margin-top: 24px; }
 
 /* ── EMPTY STATE ── */
 .empty-state { text-align: center; padding: 48px 20px; color: var(--text-muted); }
@@ -148,4 +194,6 @@ body { font-family: var(--font-display); background: var(--bg-base); color: var(
   .main-content { margin-left: 0; padding: 16px; }
   .summary-grid { grid-template-columns: 1fr; }
   .charts-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
 }
+@media (max-width: 640px) { .tx-controls { flex-direction: column; } .search-box { width: 100%; } }

@@ -2,6 +2,7 @@ import React from "react";
 import { AppProvider, useApp } from "./context/AppContext";
 import Layout from "./components/Layout/Layout";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Transactions from "./components/Transactions/Transactions";
 import "./index.css";
 
 function AppContent() {
@@ -9,7 +10,8 @@ function AppContent() {
   return (
     <div className={`app ${state.theme}`}>
       <Layout>
-        <Dashboard />
+        {state.activeTab === "dashboard" && <Dashboard />}
+        {state.activeTab === "transactions" && <Transactions />}
       </Layout>
     </div>
   );
