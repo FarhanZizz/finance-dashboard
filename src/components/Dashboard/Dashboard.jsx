@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useApp } from "../../context/AppContext";
-import { computeSummary, formatCurrency, getSpendingByCategory } from "../../utils/helpers";
+import { computeSummary, formatCurrency, formatDate, getCategory, getSpendingByCategory } from "../../utils/helpers";
 import { MONTHLY_DATA } from "../../data/mockData";
 
 function SummaryCards({ transactions }) {
@@ -104,6 +104,38 @@ function DonutChart({ transactions }) {
   );
 }
 
+function RecentTransactions({ transactions }) {
+  const recent = transactions.slice(0, 6);
+  if (!recent.length) {
+    return (
+      <div className="empty-state">
+        <div className="empty-icon">📭</div>
+        <div className="empty-title">No transactions yet</div>
+        <div className="empty-msg">Add your first transaction to see activity here.</div>
+      </div>
+    );
+  }
+  return (
+    <div className="transactions-preview">
+      {recent.map((t) => {
+        const cat = getCategory(t.category);
+        return (
+          <div key={t.id} className="tx-item">
+            <div className="tx-icon" style={{ background: `${cat.color}18` }}>{cat.icon}</div>
+            <div className="tx-info">
+              <div className="tx-desc">{t.description}</div>
+              <div className="tx-meta">{formatDate(t.date)} · {cat.label}</div>
+            </div>
+            <div className={`tx-amount ${t.type}`}>
+              {t.type === "income" ? "+" : "-"}{formatCurrency(Math.abs(t.amount))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const { state } = useApp();
   const { transactions } = state;
@@ -117,6 +149,15 @@ export default function Dashboard() {
       <div className="charts-grid">
         <BarChart />
         <DonutChart transactions={transactions} />
+      </div>
+      <div className="card" style={{ padding: "20px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div className="chart-title" style={{ margin: 0 }}>Recent Activity</div>
+          <button className="btn btn-secondary btn-sm" onClick={() => window.dispatchEvent(new CustomEvent("setTab", { detail: "transactions" }))}>
+            View all →
+          </button>
+        </div>
+        <RecentTransactions transactions={transactions} />
       </div>
     </div>
   );
